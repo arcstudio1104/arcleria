@@ -1,0 +1,142 @@
+{% extends 'base.html' %}
+{% load static bootstrap4 humanize %}
+
+{% block title %}
+    <title>{{ object.name }}</title>
+{% endblock %}
+
+{% block body %}
+    <!-- 캐러셀 -->
+    <div class="js-slick-carousel u-slick"
+         data-pagi-classes="text-center position-absolute right-0 bottom-0 left-0 u-slick__pagination u-slick__pagination--white"
+         data-arrows-classes="d-none d-lg-inline-block u-slick__arrow-classic u-slick__arrow-centered--y rounded-circle"
+         data-arrow-left-classes="fas fa-arrow-left u-slick__arrow-classic-inner u-slick__arrow-classic-inner--left ml-lg-2 ml-xl-4"
+         data-arrow-right-classes="fas fa-arrow-right u-slick__arrow-classic-inner u-slick__arrow-classic-inner--right mr-lg-2 mr-xl-4"
+         data-infinite="true"
+         data-autoplay="true"
+         data-speed="5000"
+         data-fade="true">
+
+        <div class="js-slide bg-img-hero-center" style="background-image: url('{{ object.image_1.url }}'); background-size: cover;">
+            <div class="row">
+                <div class="col-lg-2">
+
+                </div>
+                <div class="col-lg-4 g-px-30 g-px-50--lg g-py-30 g-mx-10 g-bg-black-opacity-0_7">
+                    <p class="g-color-white g-font-size-24 g-font-size-35--md g-font-weight-700">{{ object.name }}</p>
+                    <p class="g-color-white g-font-size-16--md">{{ object.place }}</p>
+                    <p class="g-color-white g-font-size-16--md">{{ object.introduce }}</p>
+                </div>
+            </div>
+        </div>
+        {% if object.image_2 %}
+            <div class="js-slide bg-img-hero-center" style="background-image: url('{{ object.image_2.url }}'); background-size: cover;">
+                <div class="row">
+                    <div class="col-lg-2">
+
+                    </div>
+                    <div class="col-lg-4 g-px-30 g-px-50--lg g-py-30 g-mx-10 g-bg-black-opacity-0_7">
+                        <p class="g-color-white g-font-size-24 g-font-size-35--md g-font-weight-700">{{ object.name }}</p>
+                        <p class="g-color-white g-font-size-16--md">{{ object.place }}</p>
+                        <p class="g-color-white g-font-size-16--md">{{ object.introduce }}</p>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+        {% if object.image_3 %}
+            <div class="js-slide bg-img-hero-center" style="background-image: url('{{ object.image_3.url }}'); background-size: cover;">
+                <div class="row">
+                    <div class="col-lg-2">
+
+                    </div>
+                    <div class="col-lg-4 g-px-30 g-px-50--lg g-py-30 g-mx-10 g-bg-black-opacity-0_7">
+                        <p class="g-color-white g-font-size-24 g-font-size-35--md g-font-weight-700">{{ object.name }}</p>
+                        <p class="g-color-white g-font-size-16--md">{{ object.place }}</p>
+                        <p class="g-color-white g-font-size-16--md">{{ object.introduce }}</p>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+    <!-- 캐러셀 종료 -->
+
+    <div class="container g-mt-50">
+        <div class="g-py-30--lg">
+            <p class="g-color-black g-font-size-16 g-font-size-28--md g-font-weight-700">보유중인 작품</p>
+            {% if picture %}
+                <div class="home-new-artworks">
+                    {% for object in picture %}
+                        {% include 'card/picture_card.html' %}
+                    {% endfor %}
+                </div>
+            {% else %}
+                <p>현재 갤러리에서 등록한 작품이 없습니다.</p>
+            {% endif %}
+        </div>
+
+        <div class="g-py-30--lg">
+            <p class="g-color-black g-font-size-16 g-font-size-28--md g-font-weight-700">진행중인 전시</p>
+            {% if exhibition %}
+                <div class="row">
+                    {% for object in exhibition %}
+                        <div class="col-lg-4 g-mb-20">
+                            <div class="home-exhibition-size">
+                                <a href="{{ object.redirect_url }}" target="_blank" style="text-decoration: none">
+                                    <img style="width: 100%;" src="{{ object.image_1.url }}" alt="전시 이미지">
+                                    <div class="g-ml-10">
+                                        <h3 class="g-font-size-16 g-font-size-24--md g-mt-20 g-color-black g-color-black--hover g-font-weight-600">{{ object.name }}</h3>
+                                        <p>{{ object.date_start|date:'Y.m.d' }} ~ {{ object.date_end|date:'Y.m.d' }}</p>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <p>현재 갤러리에서 진행중인 전시가 없습니다.</p>
+            {% endif %}
+        </div>
+
+        <div class="g-py-30--lg g-mb-50">
+            <p class="g-color-black g-font-size-16 g-font-size-28--md g-font-weight-700">지난 전시</p>
+            {% if exhibition_end %}
+                <div class="row">
+                    {% for object in exhibition_end %}
+                        <div class="col-lg-4 g-mb-20">
+                            <div class="home-exhibition-size">
+                                <a href="{{ object.redirect_url }}" target="_blank" style="text-decoration: none">
+                                    <img style="width: 100%;" src="{{ object.image_1.url }}" alt="전시 이미지">
+                                    <div class="g-ml-10">
+                                        <h3 class="g-font-size-16 g-font-size-24--md g-mt-20 g-color-black g-color-black--hover g-font-weight-600">{{ object.name }}</h3>
+                                        <p>{{ object.date_start|date:'Y.m.d' }} ~ {{ object.date_end|date:'Y.m.d' }}</p>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <p>아직 갤러리에서 진행했던 전시 정보가 없습니다.</p>
+            {% endif %}
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block script %}
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('.home-new-artworks').slick({
+                dots: false,
+                infinite: true,
+                speed: 300,
+                slidesToShow: 1,
+                centerMode: false,
+                variableWidth: true,
+                autoplay: true,
+                autoplaySpeed: 2000,
+                arrows: false,
+            });
+        });
+    </script>
+{% endblock %}

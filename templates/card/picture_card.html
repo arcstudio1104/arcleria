@@ -1,0 +1,21 @@
+{% load static humanize %}
+
+<div class="home-artwork-size">
+    <a href="{% url 'picture_detail' object.id %}" style="text-decoration: none">
+        <img height="180" src="{{ object.image_1.url }}" alt="작품 이미지">
+        <div class="g-ml-10">
+            {% if object.artist %}
+                <h3 class="g-mt-20 g-color-black g-color-black--hover g-font-size-14 g-font-size-20--md g-font-weight-600">{{ object.artist.name }}</h3>
+            {% else %}
+                <h3 class="g-mt-20 g-color-black g-color-black--hover g-font-size-14 g-font-size-20--md g-font-weight-600">작가 미상</h3>
+            {% endif %}
+            <p class="g-mb-0 g-color-black">{{ object.name }}</p>
+            <p class="g-mb-0 g-color-black">&#8361;{{ object.price | intcomma }}</p>
+            {% if object.gallery %}
+                <p class="g-mb-0 g-color-black">{{ object.gallery.name }}</p>
+            {% else %}
+                <p class="g-mb-0 g-color-black">개인 소유</p>
+            {% endif %}
+        </div>
+    </a>
+</div>

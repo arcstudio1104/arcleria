@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+{% load static bootstrap4 humanize %}
+
+{% block title %}
+    <title>작가 리스트</title>
+{% endblock %}
+
+{% block body %}
+    <div class="container g-my-30 g-my-100--md">
+        <h1 class="g-color-black g-font-weight-700">작가</h1>
+        <hr class="g-my-30">
+        <div>
+            <p class="g-mb-20 g-font-weight-600 g-font-size-20 g-font-size-30--md g-color-black">주목 받는 작가</p>
+            <div class="row">
+                {% for object in artist_popular %}
+                    <div class="col-12 col-md-6 col-lg-6 col-xl-4 g-mb-20">
+                        <div class="home-artwork-size g-bg-gray-light-v5 g-px-15 g-py-15">
+                            <a href="{% url 'artist_detail' object.id %}" style="text-decoration: none">
+                                <div class="row g-px-15">
+                                    <div class="col-5">
+                                        <img style="object-fit: cover" width="130" height="170" src="{{ object.image.url }}" alt="작가 이미지">
+                                    </div>
+                                    <div class="col-7">
+                                        <div class="g-pl-25">
+                                            <h3 class="g-mt-5 g-color-black g-color-black--hover">{{ object.name }}</h3>
+                                            <p class="g-mt-10 g-mb-0 g-color-black">{{ object.native }} / {{ object.birth_year }}</p>
+                                            <p class="g-mb-0 g-color-black">{{ object.artist_picture.count }} 작품 / {{ object.is_sale_count }} 판매</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+        <hr class="g-my-30">
+        <div class="row">
+            {% for object in page_obj %}
+                <div class="col-12 col-md-6 col-lg-6 col-xl-4 g-mb-20">
+                    <div class="home-artwork-size g-bg-gray-light-v5 g-px-15 g-py-15">
+                        <a href="{% url 'artist_detail' object.id %}" style="text-decoration: none">
+                            <div class="row g-px-15">
+                                <div class="col-5">
+                                    <img style="object-fit: cover" width="130" height="170" src="{{ object.image.url }}" alt="작가 이미지">
+                                </div>
+                                <div class="col-7">
+                                    <div class="g-pl-25">
+                                        <h3 class="g-mt-5 g-color-black g-color-black--hover">{{ object.name }}</h3>
+                                        <p class="g-mt-10 g-mb-0 g-color-black">{{ object.native }} / {{ object.birth_year }}</p>
+                                        <p class="g-mb-0 g-color-black">{{ object.artist_picture.count }} 작품 / {{ object.is_sale_count }} 판매</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        <hr class="g-my-30">
+        {% bootstrap_pagination page_obj justify_content='end' %}
+    </div>
+{% endblock %}
+
+{% block script %}
+    <script>
+        var $grid = $('.grid').imagesLoaded(function () {
+            // init Masonry after all images have loaded
+            $grid.masonry({
+                itemSelector: '.grid-item',
+                percentPosition: true,
+                gutter: 15,
+            });
+        });
+    </script>
+{% endblock %}

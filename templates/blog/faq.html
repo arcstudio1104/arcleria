@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% load static bootstrap4 %}
+
+{% block title %}
+    <title>FAQ</title>
+{% endblock %}
+
+{% block body %}
+    <div class="container g-my-30 g-my-100--md">
+        <h1 class="g-color-black g-font-weight-700">FAQ</h1>
+        <hr class="g-my-30">
+        <div>
+            {% for object in page_obj %}
+                <div>
+                    <h5 class="g-mt-10 g-pl-30--md g-font-weight-600 g-color-black g-px-10 g-pr-0--md">Q. {{ object.title }}</h5>
+                    <div class="row g-pt-10 g-pb-5">
+                        <div class="col-lg-1 g-hidden-lg-down"></div>
+                        <div class="col-lg-10 g-pl-45 g-pr-30 g-pl-55--md g-pl-55--lg g-px-0--xl g-color-black">
+                            {{ object.content|safe }}
+                        </div>
+                        <div class="col-lg-1 g-hidden-sm-down"></div>
+                    </div>
+                    <hr class="g-mt-0 g-mb-20">
+                </div>
+            {% endfor %}
+        </div>
+        <div class="g-mb-60">
+            {% bootstrap_pagination page_obj justify_content='end' %}
+        </div>
+    </div>
+{% endblock %}

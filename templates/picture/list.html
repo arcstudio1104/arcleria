@@ -1,0 +1,162 @@
+{% extends 'base.html' %}
+{% load static bootstrap4 humanize %}
+
+{% block title %}
+    <title>작품 리스트</title>
+{% endblock %}
+
+{% block head %}
+    <link rel="stylesheet" href="{% static 'vendor/jquery-ui/themes/base/jquery-ui.min.css' %}">
+{% endblock %}
+
+{% block body %}
+    <div class="container g-my-30 g-my-100--md">
+        <h1 class="g-color-black g-font-weight-700">작품</h1>
+        <hr class="g-my-30">
+        <div class="row">
+            <div class="col-lg-3 g-hidden-md-down">
+                <hr>
+                <a id="filter-t-1" href="javascript:filter_click(1)" style="text-decoration: none" class="g-color-black g-color-black--hover g-font-weight-500">작품 <span id="arrow-1"><i class="fa fa-angle-down float-right g-mt-4"></i></span></a>
+                <div id="filter-1" class="g-mt-15" style="display: none">
+                    <form name="filter-1">
+                        <ul style="list-style:none; padding-left:5px;">
+                            <li>
+                                <label><input type="radio" name="state"/> &nbsp;&nbsp;회화</label>
+                            </li>
+                            <li>
+                                <label><input type="radio" name="state"/> &nbsp;&nbsp;사진</label>
+                            </li>
+                            <li>
+                                <label><input type="radio" name="state"/> &nbsp;&nbsp;프린팅</label>
+                            </li>
+                            <li>
+                                <label><input type="radio" name="state"/> &nbsp;&nbsp;드로잉</label>
+                            </li>
+                            <li>
+                                <label><input type="radio" name="state"/> &nbsp;&nbsp;추싱화</label>
+                            </li>
+                            <li>
+                                <label><input type="radio" name="state"/> &nbsp;&nbsp;조각품</label>
+                            </li>
+                        </ul>
+                    </form>
+                </div>
+                <hr>
+                <p class="g-color-black">가격</p>
+                <hr>
+                <p class="g-color-black">사이즈</p>
+                <hr>
+                <p class="g-color-black">색상</p>
+                <hr>
+                <p class="g-color-black">연도</p>
+            </div>
+            <div class="col-lg-9">
+                <div class="grid">
+                    {% for object in page_obj %}
+                        <div class="grid-item g-mb-50">
+                            <a href="{% url 'picture_detail' object.id %}" style="text-decoration: none;">
+                                <img style="width: 100%;" src="{{ object.image_1.url }}" alt="작품 이미지">
+                                <div class="g-ml-10">
+                                    {% if object.artist %}
+                                        <p class="g-mt-10 g-color-black g-color-black--hover g-mb-0 g-font-size-14 g-font-size-20--md g-font-weight-600">{{ object.artist.name }}</p>
+                                    {% else %}
+                                        <p class="g-mt-10 g-color-black g-color-black--hover g-mb-0 g-font-size-14 g-font-size-20--md g-font-weight-600">작가 미상</p>
+                                    {% endif %}
+                                    <p class="g-mb-0 g-font-size-14 g-color-black">{{ object.name }}</p>
+                                    {% if object.gallery %}
+                                        <p class="g-mb-0 g-font-size-14 g-color-black">{{ object.gallery.name }}</p>
+                                    {% else %}
+                                        <p class="g-mb-0 g-font-size-14 g-color-black">개인 소유</p>
+                                    {% endif %}
+                                    {% if object.is_sale %}
+                                        <p class="g-mb-0 g-font-size-14 g-color-black">판매 완료</p>
+                                    {% else %}
+                                        {% if object.price == "가격 메일 문의" %}
+                                            <p class="g-mb-0 g-font-size-14 g-color-black">{{ object.price }}</p>
+                                        {% else %}
+                                            <p class="g-mb-0 g-font-size-14 g-color-black">&#8361;{{ object.price|intcomma }}</p>
+                                        {% endif %}
+                                    {% endif %}
+                                </div>
+                            </a>
+                        </div>
+                    {% endfor %}
+                </div>
+                <hr class="g-mb-20">
+                {% bootstrap_pagination page_obj justify_content='end' %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block script %}
+    <script>
+        var $grid = $('.grid').imagesLoaded(function () {
+            // init Masonry after all images have loaded
+            $grid.masonry({
+                itemSelector: '.grid-item',
+                percentPosition: true,
+                gutter: 15,
+            });
+        });
+    </script>
+    <script>
+        function filter_click(id) {
+            var a1 = $('#filter-1');
+            var a2 = $('#filter-2');
+            var a3 = $('#filter-3');
+
+            if (id === 1) {
+                if (a1.css("display") === 'none') {
+                    a1.show();
+                    $('#arrow-1').html('<i class="fa fa-angle-up float-right g-mt-4"></i>')
+                } else {
+                    a1.hide();
+                    $('#arrow-1').html('<i class="fa fa-angle-down float-right g-mt-4"></i>')
+                }
+            } else if (id === 2) {
+                if (a2.css("display") === 'none') {
+                    a2.show();
+                    $('#arrow-2').html('<i class="fa fa-angle-up float-right g-mt-4"></i>')
+                } else {
+                    a2.hide();
+                    $('#arrow-2').html('<i class="fa fa-angle-down float-right g-mt-4"></i>')
+                }
+            } else if (id === 3) {
+                if (a3.css("display") === 'none') {
+                    a3.show();
+                    $('#arrow-3').html('<i class="fa fa-angle-up float-right g-mt-4"></i>')
+                } else {
+                    a3.hide();
+                    $('#arrow-3').html('<i class="fa fa-angle-down float-right g-mt-4"></i>')
+                }
+            }
+        }
+    </script>
+
+    <!-- jQuery UI Core -->
+    <script src="{% static 'vendor/jquery-ui/ui/widget.js' %}"></script>
+    <script src="{% static 'vendor/jquery-ui/ui/version.js' %}"></script>
+    <script src="{% static 'vendor/jquery-ui/ui/keycode.js' %}"></script>
+    <script src="{% static 'vendor/jquery-ui/ui/position.js' %}"></script>
+    <script src="{% static 'vendor/jquery-ui/ui/unique-id.js' %}"></script>
+    <script src="{% static 'vendor/jquery-ui/ui/safe-active-element.js' %}"></script>
+
+    <!-- jQuery UI Helpers -->
+    <script src="{% static 'vendor/jquery-ui/ui/widgets/menu.js' %}"></script>
+    <script src="{% static 'vendor/jquery-ui/ui/widgets/mouse.js' %}"></script>
+
+    <!-- jQuery UI Widgets -->
+    <script src="{% static 'vendor/jquery-ui/ui/widgets/slider.js' %}"></script>
+
+    <!-- JS Unify -->
+    <script src="{% static 'js/components/hs.slider.js' %}"></script>
+
+    <!-- JS Plugins Init. -->
+    <script>
+        $(document).on('ready', function () {
+            // initialization of forms
+            $.HSCore.components.HSSlider.init('#regularSlider, #regularSlider2, #regularSlider3, #rangeSlider, #rangeSlider2, #rangeSlider3, #stepSlider, #stepSlider2, #stepSlider3');
+        });
+    </script>
+{% endblock %}

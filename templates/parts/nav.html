@@ -1,0 +1,47 @@
+{% load static %}
+<nav class="sticky-top">
+    <div class="navbar navbar-expand-lg navbar-light bg-white">
+        <div class="container">
+            <a class="navbar-brand" href="{% url 'home' %}">
+                <img src="{% static 'img/logo/logo.png' %}"  height="40" class="d-inline-block align-top" alt="logo">
+            </a>
+
+            <button class="navbar-toggler g-brd-none" type="button" data-toggle="collapse" data-target="#navbarToggler" aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarToggler">
+                <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
+                    <li class="nav-item g-pr-10">
+                        <a class="nav-link g-color-black" href="{% url 'picture_list' %}">작품</a>
+                    </li>
+                    <li class="nav-item g-pr-10">
+                        <a class="nav-link g-color-black" href="{% url 'artist_list' %}">작가</a>
+                    </li>
+                    <li class="nav-item g-pr-10">
+                        <a class="nav-link g-color-black" href="{% url 'gallery_list' %}">갤러리</a>
+                    </li>
+                    <li class="nav-item g-pr-40">
+                        <a class="nav-link g-color-black" href="{% url 'exhibition_list' %}">전시소개</a>
+                    </li>
+                    {% if request.user.is_authenticated %}
+                        <li class="nav-item g-mr-15">
+                            <a class="nav-link" href="{% url 'logout' %}?next={{ request.path }}">로그아웃</a>
+                        </li>
+                        <li class="nav-item g-hidden-lg-down">
+                            <span style="position:relative; top:6px" class="g-bg-blue g-color-white g-rounded-3 g-pt-2 g-pb-5 g-px-7">{{ request.user.email }}</span>
+                        </li>
+                    {% else %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'login' %}?next={{ request.path }}">로그인</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'user_create' %}">회원가입</a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </div>
+    <hr class="g-my-0">
+</nav>

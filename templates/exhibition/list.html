@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+{% load static bootstrap4 humanize %}
+
+{% block title %}
+    <title>전시 소개</title>
+{% endblock %}
+
+{% block body %}
+    <div class="container g-my-30 g-my-100--md">
+        <h1 class="g-color-black g-font-weight-700">전시 소개</h1>
+        <hr class="g-my-30">
+        <p class="g-mb-20 g-font-weight-600  g-font-size-24 g-font-size-30--md g-color-black">진행중인 전시</p>
+        <div class="row">
+            {% for object in page_obj %}
+                <div class="col-6 g-mb-20">
+                    <div>
+                        <a href="{{ object.redirect_url }}" target="_blank" style="text-decoration: none">
+                            <img style="position: relative; width:100%; height: auto; max-height: 780px; overflow: hidden;" src="{{ object.image_1.url }}" alt="전시 이미지">
+                            <div>
+                                <p class="g-mt-20 g-mb-0 g-color-black g-color-black--hover g-font-weight-600 g-font-size-14 g-font-size-24--md">{{ object.name }}</p>
+                                <p class="g-mb-0 g-color-black g-font-size-12 g-font-size-16--md">{{ object.place }}</p>
+                                <p class="g-font-size-12 g-font-size-16--md">{{ object.date_start|date:'Y.m.d' }} ~ {{ object.date_end|date:'Y.m.d' }}</p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        <hr class="g-mb-20">
+        {% bootstrap_pagination page_obj justify_content='end' %}
+        <div class="g-mt-60">
+            <p class="g-mb-20 g-font-weight-600  g-font-size-24 g-font-size-30--md g-color-black">지난 전시</p>
+            <div class="home-exhibition">
+                {% for object in exhibition_end %}
+                    <div style="width: 190px" class="home-exhibition-size">
+                        <a href="{{ object.redirect_url }}" target="_blank" style="text-decoration: none">
+                            <img width="190" src="{{ object.image_1.url }}" alt="전시 이미지">
+                            <div>
+                                <p class="g-mt-10 g-mb-0 g-color-black g-color-black--hover g-font-weight-600 g-font-size-14 g-font-size-20--md">{{ object.name }}</p>
+                                <p>{{ object.date_start|date:'Y.m.d' }} ~ {{ object.date_end|date:'Y.m.d' }}</p>
+                            </div>
+                        </a>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block script %}
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('.home-exhibition').slick({
+                dots: false,
+                infinite: true,
+                speed: 300,
+                slidesToShow: 1,
+                centerMode: false,
+                variableWidth: true,
+                autoplay: true,
+                autoplaySpeed: 2000,
+                arrows: false,
+            });
+        });
+    </script>
+{% endblock %}

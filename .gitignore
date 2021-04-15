@@ -1,0 +1,14 @@
+media/
+staticfiles/
+.venv/
+venv/
+.idea/
+.DS_Store
+*.pyc
+*.iml
+*.sqlite3
+
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml

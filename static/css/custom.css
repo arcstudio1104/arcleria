@@ -1,0 +1,48 @@
+::selection {
+    background-color: #4286f4; !important;
+}
+
+input[type]:focus {
+    border:1px solid #0a0a0a; !important;
+}
+textarea[id]:focus {
+    border:1px solid #0a0a0a; !important;
+}
+select[id]:focus {
+    border:1px solid #0a0a0a; !important;
+}
+
+.was-validated .form-control:valid, .form-control.is-valid, .was-validated
+.custom-select:valid,
+.custom-select.is-valid {
+  border-color: #cccccc;
+}
+
+.was-validated .form-control:valid:focus, .form-control.is-valid:focus, .was-validated
+.custom-select:valid:focus,
+.custom-select.is-valid:focus {
+  border-color:#cccccc;
+  box-shadow: 0 0 0 0.2rem rgba(246, 45, 81, 0.25);
+}
+.was-validated .form-check-input:valid ~ .form-check-label, .form-check-input.is-valid ~ .form-check-label {
+  color: #6c757d;
+}
+
+.home-artwork-size {
+    margin-right: 20px
+}
+
+.home-exhibition-size {
+    margin-right: 20px
+}
+
+.slick-slide {
+    outline: none !important;
+}
+
+.grid-sizer,
+.grid-item { width: 30%; }
+
+a, span, ul, li, p, h1, h2, h3, h4, h5, h6 {
+    font-family: 'Source Sans Pro', 'Noto Sans KR', sans-serif;
+}

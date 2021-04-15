@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+    <title>개인정보처리방침</title>
+{% endblock %}
+
+{% block body %}
+    <div class="container g-my-30 g-my-100--md">
+        <h1 class="g-color-black g-font-weight-700">개인정보처리방침</h1>
+        <hr class="g-my-30">
+        {% for object in object_list %}
+            <div class="g-px-30--lg">{{ object.privacy|safe }}</div>
+        {% endfor %}
+    </div>
+{% endblock %}
+
+
+

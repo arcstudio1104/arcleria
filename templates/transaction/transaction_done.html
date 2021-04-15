@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% load static humanize i18n %}
+
+{% block title %}
+    <title>결제하기</title>
+{% endblock %}
+
+{% block body %}
+    <div class="g-hidden-sm-down">
+        <div class="container text-center g-pt-100 g-pb-20">
+            <h1 class="g-color-black font-weight-700">결제가 완료 되었습니다.</h1>
+        </div>
+    </div>
+
+    <div>
+        <div class="container g-pt-30--lg g-pb-50--md g-pb-100--lg">
+            <div class="g-pt-40 g-pb-60 g-px-50--lg g-py-50--lg g-bg-white text-center">
+                <p class="g-bg-lightblue g-py-50 text-center g-color-black font-weight-300 g-font-size-20 g-font-size-36--md">구입한 크레딧 : <span class="g-color-pink font-weight-700">{{ real_amount }}</span>원</p>
+                <table class="table table-bordered">
+                    <tbody>
+                    <tr class="text-center">
+                        <td class="g-bg-lightblue font-weight-bold g-hidden-sm-down">{{ _("결제 유형") }}</td>
+                        <td class="g-hidden-sm-down">{{ _("카드 결제") }}</td>
+                        <td class="g-bg-lightblue font-weight-bold">{{ _("결제 금액") }}</td>
+                        <td>&#8361;{{ amount|intcomma }}</td>
+                        <td class="g-bg-lightblue font-weight-bold">{{ _("현재 크레딧") }}</td>
+                        <td>{{ request.user.coin }}+{{ amount }} {{ _("크레딧") }}</td>
+                    </tr>
+                    </tbody>
+                </table>
+                <h1 class="g-py-50 text-center g-color-black font-weight-300 g-font-size-20 g-font-size-36--md">이용해주셔서 감사합니다.</h1>
+                <a href="{{ request.session.credit_redirect}}" class="btn btn-md u-btn-pink">돌아가기</a>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block channel %}
+
+{% endblock %}

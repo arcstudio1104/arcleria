@@ -1,0 +1,183 @@
+{% extends 'base.html' %}
+{% load static bootstrap4 humanize %}
+
+{% block title %}
+    <title>{{ object.name }}</title>
+{% endblock %}
+
+{% block head %}
+    <link rel="stylesheet" href="{% static 'vendor/fancybox/jquery.fancybox.css' %}">
+{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <p class="g-font-size-24 g-font-size-48--md g-color-black g-mt-50 g-mb-0 g-font-weight-700">{{ object.name }} &nbsp;&nbsp;&nbsp;&nbsp;<span class="g-font-size-18 g-font-weight-400">{{ object.native }}, {{ object.birth_year }}</span></p>
+        <hr class="g-mt-0">
+        <div class="row g-px-50--lg g-my-50">
+            <div class="col-lg-7 g-pr-60--lg">
+                <p style="color: #484848">{{ object.introduce }}</p>
+                <p class="g-mt-30 g-mb-0 g-color-black g-font-weight-700">전시 및 프로젝트 경력</p>
+                {% if object.exhibition_history == '' %}
+                    <p style="color: #484848">정보 없음</p>
+                {% else %}
+                    <p style="color: #484848">{{ object.exhibition_history|linebreaksbr }}</p>
+                {% endif %}
+            </div>
+            <div class="col-lg-5 g-brd-left g-brd-0 g-brd-1--lg g-brd-gray-light-v3 g-pl-30--lg">
+                <p class="g-mb-0 g-color-black g-font-weight-700">소속 및 단체</p>
+                {% if object.belong == '' %}
+                    <p style="color: #484848">정보 없음</p>
+                {% else %}
+                    <p style="color: #484848">{{ object.belong }}</p>
+                {% endif %}
+
+                <p class="g-mt-30 g-mb-0 g-color-black g-font-weight-700">이력</p>
+                {% if object.award == '' %}
+                    <p style="color: #484848">정보 없음</p>
+                {% else %}
+                    <p style="color: #484848">{{ object.award|linebreaksbr }}</p>
+                {% endif %}
+
+                <p class="g-mt-30 g-mb-0 g-color-black g-font-weight-700">작품 소장처</p>
+                {% if object.collection == '' %}
+                    <p style="color: #484848">정보 없음</p>
+                {% else %}
+                    <p style="color: #484848">{{ object.collection }}</p>
+                {% endif %}
+
+                {% if artist_tag %}
+                    <p class="g-color-black g-font-weight-700 g-mt-50--lg">관련 태그</p>
+                    {% for object in artist_tag %}
+                        <span style="color: #6e6e6e; background-color: #f5f5f5" class="g-px-15 g-py-7">{{ object.tag }}</span>
+                    {% endfor %}
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- 직품 필터 -->
+        {% if page_obj %}
+            <!-- 판매 작품 -->
+            <hr>
+            <div class=g-py-50--lg">
+                <div class="g-pt-50--lg g-pb-50--lg">
+                    <p class="g-color-black g-font-size-16 g-font-size-28--md g-font-weight-600">판매 작품</p>
+                </div>
+            </div>
+            <div class="g-mb-70--lg">
+                <div class="grid">
+                    {% for object in page_obj %}
+                        <div class="grid-item g-mb-50">
+                            <a href="{% url 'picture_detail' object.id %}" style="text-decoration: none;">
+                                <img style="width: 100%;" src="{{ object.image_1.url }}" alt="작품 이미지">
+                                <div class="g-ml-10">
+                                    <p class="g-mt-10 g-color-black g-color-black--hover g-mb-0 g-font-size-14 g-font-size-20--md g-font-weight-600">&#8361;{{ object.price | intcomma }}</p>
+                                    <p class="g-mb-0 g-font-size-12 g-color-black">{{ object.name }}</p>
+                                    <p class="g-mb-0 g-font-size-12 g-color-black">{{ object.artist.name }}</p>
+                                    {% if object.gallery %}
+                                        <p class="g-mb-0 g-font-size-12 g-color-black">{{ object.gallery.name }}</p>
+                                    {% else %}
+                                        <p class="g-mb-0 g-font-size-12 g-color-black">개인 소유</p>
+                                    {% endif %}
+                                </div>
+                            </a>
+                        </div>
+                    {% endfor %}
+                </div>
+                <hr class="g-mb-20">
+                {% bootstrap_pagination page_obj justify_content='end' %}
+            </div>
+        {% endif %}
+
+        <!-- 비슷항 작품 -->
+        <div class=g-py-50--lg">
+            <hr>
+            <div class="g-pt-50--lg g-pb-50--lg">
+                <p class="g-color-black g-font-size-16 g-font-size-28--md g-font-weight-600">이 작가의 작품과 비슷한 작품</p>
+            </div>
+        </div>
+
+        <!-- 관련 작품 -->
+        <div class=g-py-50--lg">
+            <hr>
+            <div class="g-pt-50--lg g-pb-50--lg">
+                <p class="g-color-black g-font-size-16 g-font-size-28--md g-font-weight-600">관련 작가</p>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block script %}
+    <script src="{% static 'vendor/fancybox/jquery.fancybox.min.js' %}"></script>
+    <script src="{% static 'js/components/hs.fancybox.js' %}"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            // initialization of slick
+            $('.slick-img').slick({
+                dots: true,
+                infinite: true,
+                speed: 500,
+                fade: true,
+                cssEase: 'linear'
+            });
+
+            // initialization of popups
+            $.HSCore.components.HSFancyBox.init('.js-fancybox');
+
+            $('.home-new-artworks').slick({
+                dots: false,
+                infinite: true,
+                speed: 300,
+                slidesToShow: 1,
+                centerMode: false,
+                variableWidth: true,
+                autoplay: true,
+                autoplaySpeed: 2000,
+                arrows: false,
+            });
+        });
+    </script>
+    <script>
+        var $grid = $('.grid').imagesLoaded(function () {
+            // init Masonry after all images have loaded
+            $grid.masonry({
+                itemSelector: '.grid-item',
+                percentPosition: true,
+                gutter: 15,
+            });
+        });
+    </script>
+    <script>
+        function filter_click(id) {
+            var a1 = $('#filter-1');
+            var a2 = $('#filter-2');
+            var a3 = $('#filter-3');
+
+            if (id === 1) {
+                if (a1.css("display") === 'none') {
+                    a1.show();
+                    $('#arrow-1').html('<i class="fa fa-angle-up float-right g-mt-4"></i>')
+                } else {
+                    a1.hide();
+                    $('#arrow-1').html('<i class="fa fa-angle-down float-right g-mt-4"></i>')
+                }
+            } else if (id === 2) {
+                if (a2.css("display") === 'none') {
+                    a2.show();
+                    $('#arrow-2').html('<i class="fa fa-angle-up float-right g-mt-4"></i>')
+                } else {
+                    a2.hide();
+                    $('#arrow-2').html('<i class="fa fa-angle-down float-right g-mt-4"></i>')
+                }
+            } else if (id === 3) {
+                if (a3.css("display") === 'none') {
+                    a3.show();
+                    $('#arrow-3').html('<i class="fa fa-angle-up float-right g-mt-4"></i>')
+                } else {
+                    a3.hide();
+                    $('#arrow-3').html('<i class="fa fa-angle-down float-right g-mt-4"></i>')
+                }
+            }
+        }
+    </script>
+{% endblock %}

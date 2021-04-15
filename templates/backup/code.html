@@ -1,0 +1,101 @@
+<!-- 갤러리 디테일 코드 -->
+<div style="width: 100%; background-color: #5a636d">
+    <div class="container g-py-50">
+        <div class="row">
+            <div class="col-lg-6">
+                <p class="g-color-black g-font-size-24 g-font-size-35--md g-font-weight-700">{{ object.name }}</p>
+                <p class="g-color-black g-font-size-16--md">{{ object.place }}</p>
+                <p class="g-color-black g-font-size-16--md">{{ object.introduce }}</p>
+            </div>
+            <div class="col-lg-6">
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% if picture_gallery %}
+    <hr>
+    <div class="g-pt-50--lg g-pb-50--lg">
+        <p class="g-color-black g-font-size-16 g-font-size-28--md g-font-weight-600">갤러리 소유의 다른 작품</p>
+        <div class="home-new-artworks">
+            {% for object in picture_gallery %}
+                {% include 'card/picture_card.html' %}
+            {% endfor %}
+        </div>
+    </div>
+{% endif %}
+
+
+        <!-- 직품 필터 -->
+        {% if page_obj %}
+            <!-- 판매 작품 -->
+            <hr>
+            <div class=g-py-50--lg">
+                <div class="g-pt-50--lg g-pb-50--lg">
+                    <p class="g-color-black g-font-size-16 g-font-size-28--md g-font-weight-600">판매 작품</p>
+                </div>
+            </div>
+            <div class="row g-mb-70--lg">
+                <div class="col-lg-3">
+                    <hr>
+                    <a id="filter-t-1" href="javascript:filter_click(1)" style="text-decoration: none" class="g-color-black g-color-black--hover g-font-weight-500">작품 <span id="arrow-1"><i class="fa fa-angle-down float-right g-mt-4"></i></span></a>
+                    <div id="filter-1" class="g-mt-15" style="display: none">
+                        <form name="filter-1">
+                            <ul style="list-style:none; padding-left:5px;">
+                                <li>
+                                    <label><input type="radio" name="state"/> &nbsp;&nbsp;회화</label>
+                                </li>
+                                <li>
+                                    <label><input type="radio" name="state"/> &nbsp;&nbsp;사진</label>
+                                </li>
+                                <li>
+                                    <label><input type="radio" name="state"/> &nbsp;&nbsp;프린팅</label>
+                                </li>
+                                <li>
+                                    <label><input type="radio" name="state"/> &nbsp;&nbsp;드로잉</label>
+                                </li>
+                                <li>
+                                    <label><input type="radio" name="state"/> &nbsp;&nbsp;추싱화</label>
+                                </li>
+                                <li>
+                                    <label><input type="radio" name="state"/> &nbsp;&nbsp;조각품</label>
+                                </li>
+                            </ul>
+                        </form>
+                    </div>
+                    <hr>
+                    <p class="g-color-black">가격</p>
+                    <hr>
+                    <p class="g-color-black">사이즈</p>
+                    <hr>
+                    <p class="g-color-black">색상</p>
+                    <hr>
+                    <p class="g-color-black">연도</p>
+                </div>
+                <div class="col-lg-9">
+                    <div class="grid">
+                        {% for object in page_obj %}
+                            <div class="grid-item g-mb-50">
+                                <a href="{% url 'picture_detail' object.id %}" style="text-decoration: none;">
+                                    <img style="width: 100%;" src="{{ object.image_1.url }}" alt="작품 이미지">
+                                    <div class="g-ml-10">
+                                        <p class="g-mt-10 g-color-black g-color-black--hover g-mb-0 g-font-size-14 g-font-size-20--md g-font-weight-600">&#8361;{{ object.price | intcomma }}</p>
+                                        <p class="g-mb-0 g-font-size-12 g-color-black">{{ object.name }}</p>
+                                        <p class="g-mb-0 g-font-size-12 g-color-black">{{ object.artist.name }}</p>
+                                        {% if object.gallery %}
+                                            <p class="g-mb-0 g-font-size-12 g-color-black">{{ object.gallery.name }}</p>
+                                        {% else %}
+                                            <p class="g-mb-0 g-font-size-12 g-color-black">개인 소유</p>
+                                        {% endif %}
+                                    </div>
+                                </a>
+                            </div>
+                        {% endfor %}
+                    </div>
+                    <hr class="g-mb-20">
+                    {% bootstrap_pagination page_obj justify_content='end' %}
+                </div>
+            </div>
+        {% endif %}

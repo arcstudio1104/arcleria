@@ -1,0 +1,226 @@
+{% extends 'base.html' %}
+{% load static bootstrap4 humanize %}
+
+{% block title %}
+    <title>{{ object.name }}</title>
+{% endblock %}
+
+{% block head %}
+    <link rel="stylesheet" href="{% static 'vendor/fancybox/jquery.fancybox.css' %}">
+{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <div class="row g-px-100--lg">
+            <div class="col-lg-7">
+                <div class="slick-img g-mt-50">
+                    {% if object.image_1 %}
+                        <div class="g-mb-20">
+                            <a class="js-fancybox u-media-viewer" href="javascript:;"
+                               data-src="{{ object.image_1.url }}"
+                               data-fancybox="fancyboxGallery1"
+                               data-caption="{{ object.name }}"
+                               data-speed="700">
+                                <img style="width: 100%;" class="img-fluid rounded" src="{{ object.image_1.url }}" alt="대표 이미지 1">
+                                <span class="u-media-viewer__container">
+                                    <span class="u-media-viewer__icon">
+                                        <span class="fas fa-plus u-media-viewer__icon-inner"></span>
+                                    </span>
+                                </span>
+                            </a>
+                        </div>
+                    {% endif %}
+
+                    {% if object.image_2 %}
+                        <div class="g-mb-20">
+                            <a class="js-fancybox u-media-viewer" href="javascript:;"
+                               data-src="{{ object.image_2.url }}"
+                               data-fancybox="fancyboxGallery1"
+                               data-caption="{{ object.name }}"
+                               data-speed="700">
+                                <img style="width: 100%;" class="img-fluid rounded" src="{{ object.image_2.url }}" alt="대표 이미지 2">
+                                <span class="u-media-viewer__container">
+                                    <span class="u-media-viewer__icon">
+                                        <span class="fas fa-plus u-media-viewer__icon-inner"></span>
+                                    </span>
+                                </span>
+                            </a>
+                        </div>
+                    {% endif %}
+
+                    {% if object.image_3 %}
+                        <div class="g-mb-20 text-center">
+                            <a class="js-fancybox u-media-viewer" href="javascript:;"
+                               data-src="{{ object.image_3.url }}"
+                               data-fancybox="fancyboxGallery1"
+                               data-caption="{{ object.name }}"
+                               data-speed="700">
+                                <img style="width: 100%;" class="img-fluid rounded" src="{{ object.image_3.url }}" alt="대표 이미지 3">
+                                <span class="u-media-viewer__container">
+                                    <span class="u-media-viewer__icon">
+                                        <span class="fas fa-plus u-media-viewer__icon-inner"></span>
+                                    </span>
+                                </span>
+                            </a>
+                        </div>
+                    {% endif %}
+
+                    {% if object.image_4 %}
+                        <div class="g-mb-20">
+                            <a class="js-fancybox u-media-viewer" href="javascript:;"
+                               data-src="{{ object.image_4.url }}"
+                               data-fancybox="fancyboxGallery1"
+                               data-caption="{{ object.name }}"
+                               data-speed="700">
+                                <img style="width: 100%;" class="img-fluid rounded" src="{{ object.image_4.url }}" alt="대표 이미지 4">
+                                <span class="u-media-viewer__container">
+                                    <span class="u-media-viewer__icon">
+                                        <span class="fas fa-plus u-media-viewer__icon-inner"></span>
+                                    </span>
+                                </span>
+                            </a>
+                        </div>
+                    {% endif %}
+
+                    {% if object.image_5 %}
+                        <div class="g-mb-20">
+                            <a class="js-fancybox u-media-viewer" href="javascript:;"
+                               data-src="{{ object.image_5.url }}"
+                               data-fancybox="fancyboxGallery1"
+                               data-caption="{{ object.name }}"
+                               data-speed="700">
+                                <img style="width: 100%;" class="img-fluid rounded" src="{{ object.image_5.url }}" alt="대표 이미지 5">
+                                <span class="u-media-viewer__container">
+                                    <span class="u-media-viewer__icon">
+                                        <span class="fas fa-plus u-media-viewer__icon-inner"></span>
+                                    </span>
+                                </span>
+                            </a>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="col-lg-5 g-mt-10 g-mt-50--lg">
+                {% if object.artist %}
+                    <p class="g-mt-20 g-color-black g-font-size-16 g-font-size-24--md g-font-weight-600">{{ object.artist.name }}</p>
+                {% else %}
+                    <p class="g-mt-20 g-color-black g-font-size-16 g-font-size-24--md g-font-weight-600">작가 미상</p>
+                {% endif %}
+                <p>{{ object.name }}, {{ object.make_year }}</p>
+                <p>{{ object.material }}</p>
+                <p>가로 {{ object.size_horizontal }}cm / 세로 {{ object.size_vertical }}cm</p>
+                {% if object.gallery %}
+                    <p class="g-mb-0">{{ object.gallery.name }}</p>
+                {% else %}
+                    <p class="g-mb-0">개인 소유</p>
+                {% endif %}
+                <hr>
+                {% if object.price == "가격 메일 문의" %}
+                    <p class="g-color-black g-font-size-20 g-font-size-24--md g-font-weight-600 g-mb-0">{{ object.price }}</p>
+                {% else %}
+                    <p class="g-color-black g-font-size-20 g-font-size-24--md g-font-weight-600 g-mb-0">&#8361;{{ object.price|intcomma }}</p>
+                {% endif %}
+                {% if object.shipping_fee == 0 %}
+                    <p>배송비 <strong>무료</strong></p>
+                {% else %}
+                    <p>배송비 <strong>+{{ object.shipping_fee|intcomma }}원</strong></p>
+                {% endif %}
+                {% if object.is_sale %}
+                    <a style="text-decoration: none; display: block" class="g-bg-gray-dark-v4 g-color-white text-center g-rounded-0 g-py-10 w-100 g-mt-50--lg disabled">판매 완료</a>
+                {% else %}
+                    {% if object.price == "가격 메일 문의" %}
+                        <a href="mailto:patrickyang@arcleria.com?Subject=아클레리아%20작품%20구매%20문의 (작품번호:{{ object.id }})" style="text-decoration: none; display: block" class="g-bg-black g-color-white text-center g-rounded-0 g-py-10 w-100 g-mt-50--lg">이메일 보내기</a>
+                    {% else %}
+                        <a href="{% url 'cash_payment' pk=object.id %}" style="text-decoration: none; display: block" class="g-bg-black g-color-white text-center g-rounded-0 g-py-10 w-100 g-mt-50--lg">구입하기</a>
+                    {% endif %}
+                {% endif %}
+            </div>
+        </div>
+        <hr>
+        <div class="g-px-30--lg g-py-40--lg">
+            <div class="row">
+                <div class="col-lg-7">
+                    <div class="g-py-50">
+                        <p class="g-color-black g-font-size-16 g-font-size-24--md g-font-weight-600">작품 소개</p>
+                        <p class="g-color-black g-font-size-18--md">{{ object.introduce }}</p>
+                    </div>
+                </div>
+
+                {% if object.recommend_reason != '' %}
+                    <div class="col-lg-5 g-pl-30--md g-brd-left g-brd-1 g-brd-gray-light-v3">
+                        <div class="g-py-50">
+                            <p class="g-color-black g-font-size-16 g-font-size-24--md g-font-weight-600">추천 이유</p>
+                            <p class="g-color-black g-font-size-18--md">{{ object.recommend_reason }}</p>
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+
+        {% if picture_artist %}
+            <div class=g-py-50--lg">
+                <hr>
+                <div class="g-pt-50--lg g-pb-50--lg">
+                    <p class="g-color-black g-font-size-16 g-font-size-28--md g-font-weight-600">작가의 다른 작품</p>
+                    <div class="home-new-artworks">
+                        {% for object in picture_artist %}
+                            {% include 'card/picture_card.html' %}
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+
+        <div class=g-py-50--lg">
+            <hr>
+            <div class="g-pt-50--lg g-pb-50--lg">
+                <p class="g-color-black g-font-size-16 g-font-size-28--md g-font-weight-600">관련 작품</p>
+                <div class="home-new-artworks">
+                    {% for object in picture_similar %}
+                        {% include 'card/picture_card.html' %}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <div class=g-py-50--lg">
+            <hr>
+            <div class="g-pt-50--lg g-pb-50--lg">
+                <p class="g-color-black g-font-size-16 g-font-size-28--md g-font-weight-600">관련 작가</p>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block script %}
+    <script src="{% static 'vendor/fancybox/jquery.fancybox.min.js' %}"></script>
+    <script src="{% static 'js/components/hs.fancybox.js' %}"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            // initialization of slick
+            $('.slick-img').slick({
+                dots: true,
+                infinite: true,
+                speed: 500,
+                fade: true,
+                arrows: false,
+                cssEase: 'linear'
+            });
+
+            // initialization of popups
+            $.HSCore.components.HSFancyBox.init('.js-fancybox');
+
+            $('.home-new-artworks').slick({
+                dots: false,
+                infinite: true,
+                speed: 300,
+                slidesToShow: 1,
+                centerMode: false,
+                variableWidth: true,
+                autoplay: true,
+                autoplaySpeed: 2000,
+                arrows: false,
+            });
+        });
+    </script>
+{% endblock %}

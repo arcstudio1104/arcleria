@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% load static bootstrap4 socialaccount %}
+{% providers_media_js %}
+
+
+{% block title %}
+    <title>로그인</title>
+{% endblock %}
+
+{% block body %}
+    <div>
+        <div class="container g-pt-20 g-pt-50--md g-pb-50 g-pb-100-lg">
+            <div class="g-mx-100--lg g-font-size-28 g-font-size-35--md g-bg-white g-color-black font-weight-bold">로그인</div>
+            <hr class="g-my-10 g-mx-100--lg">
+            <div class="row justify-content-center">
+                <div class="col-lg-5 g-mt-30 g-mt-30--lg g-mb-30 g-mb-100-lg">
+                    <div class="card g-brd-none">
+                        <div class="card-body g-brd-none">
+                            <form method="post">
+                                {% csrf_token %}
+                                {% bootstrap_form_errors form %}
+                                <div class="g-px-30--md">
+                                    {% bootstrap_field form.username placeholder='member@arcleria.com' %}
+                                    {% bootstrap_field form.password placeholder='********' %}
+                                </div>
+                                <div class="g-pt-10 g-px-30--md text-right g-font-size-12 g-mb-20 g-mb-50--lg">
+                                    <a href="{% url 'password_reset' %}" class="g-color-gray-dark-v2 g-color-gray-dark-v5--hover" style="text-decoration: underline">비밀번호 찾기</a>
+                                </div>
+                                <div class="col-lg-12 g-px-0 g-px-30--md">
+                                    <button type="submit" class="g-bg-black g-color-white text-center g-rounded-0 g-py-15 w-100 g-brd-none g-font-weight-700 g-font-size-16">로그인</button>
+                                    <a href="{% url 'user_create' %}" style="text-decoration: none; display: block" class="g-mt-10 g-brd-around g-brd-1 g-brd-black g-bg-white g-color-black text-center g-rounded-0 g-py-14 w-100 g-font-weight-500 g-font-size-16">회원가입</a>
+                                </div>
+                            </form>
+                            <hr class="g-mx-0 g-mx-30--md g-my-30">
+                            <div class="g-px-0 g-px-30--md">
+                                <a href=" {% provider_login_url 'naver' %}" style="text-decoration: none; display: block" class="g-mt-10 g-brd-around g-brd-1 g-brd-black g-bg-white g-color-black text-center g-rounded-0 g-py-14 w-100 g-font-weight-500 g-font-size-16">네이버로 시작하기</a>
+                                <a href=" {% provider_login_url 'google' %}" style="text-decoration: none; display: block" class="g-mt-10 g-brd-around g-brd-1 g-brd-black g-bg-white g-color-black text-center g-rounded-0 g-py-14 w-100 g-font-weight-500 g-font-size-16">구글로 시작하기</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,3 @@
+.grid-sizer,
+.grid-item { width: 20%; margin-bottom: 10px; }
+.grid-item--width2 { width: 40%; margin-bottom: 10px; }

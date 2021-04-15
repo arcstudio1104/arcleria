@@ -1,0 +1,141 @@
+{% extends 'base.html' %}
+{% load static humanize socialaccount %}
+{% providers_media_js %}
+
+{% block body %}
+    <div>
+        <!-- 데스크탑 -->
+        <div class="js-slick-carousel u-slick g-hidden-md-down"
+             data-pagi-classes="text-center position-absolute right-0 bottom-0 left-0 u-slick__pagination u-slick__pagination--white mb-5"
+             data-infinite="true"
+             data-autoplay="true"
+             data-speed="5000"
+             data-fade="true">
+            {% for object in banner %}
+                <div class="js-slid u-bg-img-hero-center">
+                    <a href="{{ object.redirect_url }}"><img style="width: 100%" src="{{ object.image.url }}" alt="banner"></a>
+                </div>
+            {% endfor %}
+        </div>
+        <!-- 모바일 -->
+        <div class="js-slick-carousel u-slick g-hidden-lg-up"
+             data-pagi-classes="text-center position-absolute right-0 bottom-0 left-0 u-slick__pagination u-slick__pagination--white mb-3"
+             data-infinite="true"
+             data-autoplay="true"
+             data-speed="5000"
+             data-fade="true">
+            {% for object in banner %}
+                <div class="js-slid u-bg-img-hero-center">
+                    <a href="{{ object.redirect_url }}"><img style="width: 100%" src="{{ object.image_m.url }}" alt="banner"></a>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="container g-mt-50 g-mb-50">
+        <a href="{% url 'picture_list' %}" style="color: #4d4d4d" class="g-font-size-18 g-pt-10 g-color-black--hover g-font-weight-400 float-right g-hidden-md-down">더보기</a>
+        <h1 class="g-mb-15 g-font-weight-600 g-color-black">새로운 작품</h1>
+        <div class="home-new-artworks g-mt-30">
+            {% for object in picture %}
+                <div class="home-artwork-size">
+                    <a href="{% url 'picture_detail' object.id %}" style="text-decoration: none">
+                        <img id="img_{{ object.id }}" height="250" src="{{ object.image_1.url }}" alt="작품 이미지">
+                        <div class="g-ml-10">
+                            {% if object.artist %}
+                                <h3 class="g-mt-20 g-color-black g-color-black--hover g-font-size-14 g-font-size-20--md g-font-weight-600">{{ object.artist.name }}</h3>
+                            {% else %}
+                                <h3 class="g-mt-20 g-color-black g-color-black--hover g-font-size-14 g-font-size-20--md g-font-weight-600">작가 미상</h3>
+                            {% endif %}
+                            <p class="g-mb-0 g-color-black">{{ object.name }}</p>
+                            {% if object.gallery %}
+                                <p class="g-mb-0 g-color-black">{{ object.gallery.name }}</p>
+                            {% else %}
+                                <p class="g-mb-0 g-color-black">개인 소유</p>
+                            {% endif %}
+                            {% if object.is_sale %}
+                                <p class="g-mb-0 g-color-black">판매 완료</p>
+                            {% else %}
+                                {% if object.price == "가격 메일 문의" %}
+                                    <p class="g-mb-0 g-color-black">{{ object.price }}</p>
+                                {% else %}
+                                    <p class="g-mb-0 g-color-black">&#8361;{{ object.price | intcomma }}</p>
+                                {% endif %}
+                            {% endif %}
+                        </div>
+                    </a>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    <hr>
+    <div class="container g-mt-50 g-mb-50">
+        <a href="{% url 'artist_list' %}" style="color: #4d4d4d" class="g-font-size-18 g-pt-10 g-color-black--hover g-font-weight-400 float-right g-hidden-md-down">더보기</a>
+        <h1 class="g-mb-15 g-font-weight-600 g-color-black">주목 받는 작가</h1>
+        <div class="home-new-artworks g-mt-30">
+            {% for object in artist %}
+                <div style="width: 400px" class="home-artwork-size g-bg-gray-light-v5 g-px-15 g-py-15">
+                    <a href="{% url 'artist_detail' object.id %}" style="text-decoration: none">
+                        <div class="row g-px-15">
+                            <div class="col-5">
+                                <img style="object-fit: cover" width="150" height="200" src="{{ object.image.url }}" alt="작가 이미지">
+                            </div>
+                            <div class="col-7">
+                                <div class="g-pl-20">
+                                    <h3 class="g-mt-5 g-color-black g-color-black--hover">{{ object.name }}</h3>
+                                    <p class="g-mt-10 g-mb-0 g-color-black">{{ object.native }} / {{ object.birth_year }}</p>
+                                    <p class="g-mb-0 g-color-black">{{ object.artist_picture.count }} 작품 / {{ object.is_sale_count }} 판매</p>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    <hr>
+    <div class="container g-mt-50 g-mb-50">
+        <a href="{% url 'exhibition_list' %}" style="color: #4d4d4d" class="g-font-size-18 g-pt-10 g-color-black--hover g-font-weight-400 float-right g-hidden-md-down">더보기</a>
+        <h1 class="g-mb-15 g-font-weight-600 g-color-black">전시 소개</h1>
+        <div class="home-exhibition g-mt-30">
+            {% for object in exhibition %}
+                <div style="width: 250px" class="home-exhibition-size">
+                    <a href="{{ object.redirect_url }}" target="_blank" style="text-decoration: none">
+                        <img width="250" src="{{ object.image_1.url }}" alt="전시 이미지">
+                        <div class="g-ml-10">
+                            <h3 class="g-mt-20 g-color-black g-color-black--hover g-font-weight-600">{{ object.name }}</h3>
+                            <p class="g-color-black">{{ object.date_start|date:'Y.m.d' }} ~ {{ object.date_end|date:'Y.m.d' }}</p>
+                        </div>
+                    </a>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
+
+{% block script %}
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('.home-new-artworks').slick({
+                dots: false,
+                infinite: true,
+                speed: 300,
+                slidesToShow: 1,
+                centerMode: false,
+                variableWidth: true,
+                arrow: false,
+            });
+            $('.home-exhibition').slick({
+                dots: false,
+                infinite: true,
+                speed: 300,
+                slidesToShow: 1,
+                centerMode: false,
+                variableWidth: true,
+                arrow: false,
+            });
+        });
+    </script>
+    <script>
+
+    </script>
+{% endblock %}

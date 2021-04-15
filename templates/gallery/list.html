@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+{% load static bootstrap4 humanize %}
+
+{% block title %}
+    <title>갤러리 리스트</title>
+{% endblock %}
+
+{% block body %}
+    <div class="container g-mt-30 g-mt-100--md">
+        <h1 class="g-color-black g-font-weight-700">갤러리</h1>
+        <hr class="g-mt-30 g-mb-10">
+
+        <!-- 캐러셀 -->
+        <div class="js-slick-carousel u-slick g-my-10"
+             data-pagi-classes="text-center position-absolute right-0 bottom-0 left-0 u-slick__pagination u-slick__pagination--white"
+             data-arrows-classes="d-none d-lg-inline-block u-slick__arrow-classic u-slick__arrow-centered--y rounded-circle"
+             data-arrow-left-classes="fas fa-arrow-left u-slick__arrow-classic-inner u-slick__arrow-classic-inner--left ml-lg-2 ml-xl-4"
+             data-arrow-right-classes="fas fa-arrow-right u-slick__arrow-classic-inner u-slick__arrow-classic-inner--right mr-lg-2 mr-xl-4"
+             data-infinite="true"
+             data-autoplay="true"
+             data-speed="5000"
+             data-fade="true">
+            {% for object in banner %}
+                <div class="js-slide bg-img-hero-center">
+                    <div class="row" style="width: 100%; height:400px; background-image: url('{{ object.image.url }}'); background-size: cover;">
+                        <div class="col-lg-2">
+
+                        </div>
+                        <div class="col-lg-10 g-py-80 g-px-50">
+                            <p class="g-color-black g-font-size-24 g-font-size-30--md g-font-weight-700">{{ object.name }}</p>
+                            <p class="g-color-black g-font-size-16 g-font-size-18--md g-mt-20">{{ object.exhibition }}</p>
+                            <p class="g-color-black g-font-size-14 g-font-size-18--md">{{ object.place }}</p>
+                            <p class="g-color-black g-font-size-14 g-font-size-18--md g-mb-40">{{ object.date }}</p>
+                            <a href="{{ object.redirect_url }}" target="_blank" style="text-decoration: none" class="g-bg-black g-color-white g-rounded-0 g-px-50 g-py-10">상세 정보</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        <!-- 캐러셀 종료 -->
+
+        {% for object in page_obj %}
+            <hr class="g-my-0">
+            <div class="g-mb-10 g-mb-40--md">
+                <div class="row">
+                    <div class="col-lg-5 g-mt-20">
+                        <img style="width: 100%;" src="{{ object.image_1.url }}" alt="갤러리 이미지">
+                    </div>
+                    <div class="col-lg-7">
+                        <div class="g-mt-15 g-mt-30--lg g-mb-40--lg">
+                            <p style="display: inline" class="g-color-black g-font-size-24 g-font-size-30--md g-font-weight-700">{{ object.name }}</p>
+                            <a href="{% url 'gallery_detail' object.id %}" style="text-decoration: none" class="g-bg-black g-color-white g-rounded-0 g-px-50 g-py-10 float-right g-hidden-md-down">상세 정보</a>
+                        </div>
+                        <div class="row g-mb-40">
+                            <div class="col-12 col-lg-4 g-mt-10 g-mt-0--lg g-font-weight-500">
+                                {{ object.place|linebreaksbr }}
+                            </div>
+                            <div class="col-12 col-lg-8 g-mt-10 g-mt-0--lg">
+                                {{ object.introduce|linebreaksbr }}
+                            </div>
+                        </div>
+                        <div class="g-mb-20 text-right g-hidden-lg-up">
+                            <a href="{% url 'gallery_detail' object.id %}" style="text-decoration: none" class="g-bg-black g-color-white g-rounded-0 g-px-50 g-py-10 g-mb-20">상세 정보</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+        <hr class="g-mt-0 g-mb-20">
+        <div class="g-mb-60">
+            {% bootstrap_pagination page_obj justify_content='end' %}
+        </div>
+    </div>
+{% endblock %}
+
+{% block script %}
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('.home-exhibition').slick({
+                dots: false,
+                infinite: true,
+                speed: 300,
+                slidesToShow: 1,
+                centerMode: false,
+                variableWidth: true,
+                autoplay: true,
+                autoplaySpeed: 2000,
+                arrows: false,
+            });
+        });
+    </script>
+{% endblock %}

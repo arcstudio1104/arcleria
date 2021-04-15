@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% load static bootstrap4 humanize i18n %}
+
+{% block body %}
+    <div class="text-center g-py-100">
+        <h1 class="g-font-size-50 g-py-150 g-color-gray-light-v1">결제가 <br class='d-md-none'>진행중입니다.</h1>
+    </div>
+{% endblock %}
+
+{% block footer %}
+
+{% endblock %}
+
+{% block channel %}
+
+{% endblock %}
+
+{% block script %}
+    <!-- iamport pay -->
+    <script>
+        IMP.init('imp56239470');
+        IMP.request_pay({
+                pg: 'html5_inicis',
+                pay_method: 'card',
+                merchant_uid: 'item_' + '{% now "YmdHis" %}',
+                name: '{{ object.name }}',
+                amount: '{{ amount }}',
+                buyer_email: '{{ user.email }}',
+                buyer_tel: '{{ user.phone_number }}',
+                custom_data: {},
+                m_redirect_url: 'https://arcleria.com/payment/cash/' + '{{ plan }}' + '/done/', //실제 결제완료 후 https://yourdomain.com/payment/confirm/?imp_uid={imp_uid} 주소로 이동하게 됩니다(GET)
+            }, function (rsp) {
+                if (rsp.success) {
+                    location.href = 'https://arcleria.com/payment/cash/' + '{{ plan }}' + '/done/?imp_uid=' + rsp.imp_uid;
+                    var msg = '결제가 완료되었습니다.';
+                } else {
+                    var msg = '결제에 실패하였습니다. ';
+                    msg += rsp.error_msg;
+                }
+                alert(msg);
+            }
+        );
+    </script>
+{% endblock %}

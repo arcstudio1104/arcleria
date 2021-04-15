@@ -1,0 +1,41 @@
+{% load static bootstrap4 %}
+
+{% with bpurl=bootstrap_pagination_url|default:"" %}
+    <nav aria-label="Page Navigation">
+        <ul class="list-inline {{ pagination_css_classes }}">
+            <li class="list-inline-item {% if current_page == 1 %} u-pagination-v1__item--disabled {% endif %}">
+                <a class="u-pagination-v1__item u-pagination-v1-3 g-rounded-50 g-pa-4-13" href="{% if current_page == 1 %}#{% else %}{% bootstrap_url_replace_param bpurl parameter_name 1 %}{% endif %}" aria-label="Previous">
+                    <span aria-hidden="true"><i class="fa fa-angle-left g-color-black"></i></span>
+                    <span class="sr-only">Previous</span>
+                </a>
+            </li>
+
+            {% if pages_back %}
+                <li class="list-inline-item g-hidden-sm-down">
+                    <a class="u-pagination-v1__item u-pagination-v1-3 g-rounded-50 g-pa-4-11 g-color-black" href="{% bootstrap_url_replace_param bpurl parameter_name pages_back %}">&hellip;</a>
+                </li>
+            {% endif %}
+
+            {% for p in pages_shown %}
+                <li class="list-inline-item {% if current_page == p %}u-pagination-v1-3--active{% endif %}">
+                    <a class="u-pagination-v1__item u-pagination-v1-3 g-rounded-50 g-pa-4-11 g-color-black" href="{% if current_page == p %}#{% else %}{% bootstrap_url_replace_param bpurl parameter_name p %}{% endif %}">{{ p }}</a>
+                </li>
+            {% endfor %}
+
+            {% if pages_forward %}
+                <li class="list-inline-item g-hidden-sm-down">
+                    <a class="u-pagination-v1__item u-pagination-v1-3 g-rounded-50 g-pa-4-11 g-color-black" href="{% bootstrap_url_replace_param bpurl parameter_name pages_forward %}">&hellip;</a>
+                </li>
+            {% endif %}
+
+            <li class="list-inline-item {% if current_page == num_pages %} u-pagination-v1__item--disabled {% endif %}">
+                <a class="u-pagination-v1__item u-pagination-v1-3 g-rounded-50 g-pa-4-13" href="{% if current_page == num_pages %}#{% else %}{% bootstrap_url_replace_param bpurl parameter_name num_pages %}{% endif %}" aria-label="Next">
+                    <span aria-hidden="true"><i class="fa fa-angle-right g-color-black"></i></span>
+                    <span class="sr-only">Next</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+{% endwith %}
+
+
